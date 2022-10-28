@@ -24,7 +24,9 @@ while True:
         lin('Login')
         user_temp = input('Usuário: ')
         pass_temp = input('Senha: ')
-
+        if user_temp not in user:
+            print('Usuário não cadastrado')
+            continue
         for i, valor in enumerate(user):
             if valor == user_temp and pass_temp == password[i]:
                 print('Usuário logado')

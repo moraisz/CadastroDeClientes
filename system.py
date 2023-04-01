@@ -76,7 +76,7 @@ while True:
                         del (cpf[i])
                         print('Usuário deletado!')
 
-            if del_confim == 'N':
+            elif del_confim == 'N':
                 print('Cancelando!')
                 continue
 

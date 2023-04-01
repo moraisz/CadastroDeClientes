@@ -2,7 +2,7 @@ user = []
 password = []
 cpf = []
 while True:
-    def lin(var):
+    def lin(var):  # def para cabeçalho
         print(f'{"=-=" * 10}\n{var.upper():^30}\n{"=-=" * 10}')
 
 
@@ -163,6 +163,7 @@ while True:
             cpf.append(cpf_cad)
             user.append(user_cad)
             password.append(pass_cad)
+            print('Usuário Cadastrado!')
 
     if init == 3:
         print('Saindo!')

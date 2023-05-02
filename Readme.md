@@ -1,2 +1,5 @@
-sistema simples de cadastro de usuários, fiz em torno de uma semana. Muito provavelmente irei melhorar algumas coisas com o tempo, como possiveis bugs que quebrem o código.
-Para usar é muito simples, cadastra o usuário e loga, o programa é bem intuitivo.
+Sistema de cadastro de usuários. 
+
+Para usar é muito simples, basta cadastrar o usuário e logar, o programa é bem intuitivo.
+
+Futuramente será adicionado funcionalidades no menu de usuário, além do de deletar usuário.

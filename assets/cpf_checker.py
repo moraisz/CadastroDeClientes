@@ -29,7 +29,8 @@ def check(cpf_cad):
         d2 = 0
     cpf_temp += str(d2)
 
-    seq = cpf_cad == (cpf_cad[0]) * len(cpf_cad)  # evita sequências como "11111111111"
+    # evita sequências como "11111111111"
+    seq = cpf_cad == (cpf_cad[0]) * len(cpf_cad)
 
     if cpf_cad == cpf_temp and not seq:
         return True

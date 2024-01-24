@@ -1,7 +1,9 @@
-from assets import cpf_checker
 import json
+from os import name, system
 from pathlib import Path
-from os import system, name
+
+from assets import cpf_checker
+
 
 class Client:
     def __init__(self, id, name, cpf, password):
@@ -9,6 +11,7 @@ class Client:
         self._name = name
         self._cpf = cpf
         self._password = password
+
 
 class System:
     SAVE_TO = Path(__file__).parent / "data" / "data.json"
@@ -33,12 +36,12 @@ class System:
                         return int(index)
                     else:
                         return int(index) + 1
-        except:
+        except Exception:
             return 1
 
     @classmethod
     def update_json(cls, clients):
-        try: 
+        try:
             clients.update(System.read_json())
         except FileNotFoundError:
             pass
@@ -47,27 +50,28 @@ class System:
     def delete_json(cls, cpf):
         data = System.read_json()
 
-        # Encontre a chave correspondente ao CPF
         id_to_delete = None
         for id, valor in data.items():
             if "cpf" in valor and valor["cpf"] == cpf:
                 id_to_delete = id
                 break
 
-        # Se encontrou o CPF, exclua-o
         if id_to_delete is not None:
             del data[id_to_delete]
-            System.create_json(data)  # Atualize o arquivo JSON após a exclusão
+            System.create_json(data)
 
-    def clear():
+    @classmethod
+    def clear(cls):
         if name == 'nt':  # Windows
             _ = system('cls')
         else:  # Mac/Linux
             _ = system('clear')
-    
-    def interface(var):
+
+    @classmethod
+    def interface(cls, var):
         System.clear()
-        print(f'{"=-=" * 10}\n{var.upper():^30}\n{"=-=" * 10}')
+        print(f'{"=-=" * 10}\n{var.upper(): ^30}\n{"=-=" * 10}')
+
 
 while True:
     System.interface('Sistema de cadastro de clientes')
@@ -76,7 +80,7 @@ while True:
     print('3-Sair')
 
     init = input('Escolha uma opção: ')
-    
+
     if init.isdigit():
         init = int(init)
         if init < 1 or init > 3:
@@ -88,15 +92,17 @@ while True:
         print('Coloque uma opção válida\n')
         input("Pressione ENTER para continuar ")
 
-    if init == 1:  # Checar se o user existe no data e logar, lá dentro poder deletar o user
+    # Checar se o user existe no data e logar, lá dentro poder deletar o user
+    if init == 1:
         System.interface('Login')
 
         cpf_login = input("CPF: ")
         password_login = input("Password: ")
-        
-        for chave, valor in System.read_json().items():  # Checagem dos dados para efetuar o login
+
+        # Checagem dos dados para efetuar o login
+        for chave, valor in System.read_json().items():
             if "cpf" in valor and valor["cpf"] == cpf_login:
-                if "password" in valor and valor ["password"] == password_login:
+                if "password" in valor and valor["password"] == password_login:
                     System.interface("Menu")
                     print('1-Deletar Usuario')
 
@@ -128,28 +134,40 @@ while True:
         cpf_register = input("CPF: ")
         password_register = input("Password: ")
 
-        if cpf_checker.check(cpf_register) is True:  # Checagem para ver se existe o CPF que deseja cadastrar
+        # Checagem para ver se existe o CPF que deseja cadastrar
+        if cpf_checker.check(cpf_register) is True:
             try:
                 for chave, valor in System.read_json().items():
                     if "cpf" in valor and valor["cpf"] == cpf_register:
                         print("CPF Existe")
                         input("Pressione ENTER para continuar ")
                     else:
-                        client_dados = Client(client_id, name_register, cpf_register, password_register)
+                        client_dados = Client(
+                            client_id, name_register,
+                            cpf_register, password_register)
 
-                        clientes_dict = {cliente._id: {"name": cliente._name, "cpf": cliente._cpf, "password": cliente._password} for cliente in [client_dados]}
-        
+                        clientes_dict = {cliente._id:
+                                         {"name": cliente._name,
+                                          "cpf": cliente._cpf,
+                                          "password": cliente._password}
+                                         for cliente in [client_dados]}
+
                         System.update_json(clientes_dict)
                         System.create_json(clientes_dict)
 
                         print("Dados cadastrados")
                         input("Pressione ENTER para continuar ")
-                        
-            except FileNotFoundError:
-                client_dados = Client(client_id, name_register, cpf_register, password_register)
 
-                clientes_dict = {cliente._id: {"name": cliente._name, "cpf": cliente._cpf, "password": cliente._password} for cliente in [client_dados]}
-            
+            except FileNotFoundError:
+                client_dados = Client(
+                    client_id, name_register, cpf_register, password_register)
+
+                clientes_dict = {cliente._id:
+                                 {"name": cliente._name,
+                                  "cpf": cliente._cpf,
+                                  "password": cliente._password}
+                                 for cliente in [client_dados]}
+
                 System.update_json(clientes_dict)
                 System.create_json(clientes_dict)
 
